@@ -1,0 +1,119 @@
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+apply plugin: 'com.jfrog.artifactory-upload'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = project.mavenGroupId
+version = project.mavenVersion
+
+def targetRepo = 'oss-snapshot-local'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 15
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled
+            proguardFiles getDefaultProguardFile('proguard-android.txt')
+        }
+    }
+}
+
+repositories {
+    maven {
+        url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
+    }
+}
+
+dependencies {
+    compile 'com.google.code.gson:gson:2.3'
+    compile 'com.google.guava:guava:18.0'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+
+    compile(group: 'com.microsoft.services.orc', name: 'orc-android', version: '1.2.1-SNAPSHOT', ext: 'aar'){
+        transitive = true
+    }
+}
+
+artifactory {
+    contextUrl = 'https://oss.jfrog.org'
+    publish {
+        repository {
+            repoKey = targetRepo
+            username = project.hasProperty("bintrayUsername") ? project.bintrayUsername : ""
+            password = project.hasProperty("bintrayApikey") ? project.bintrayApikey : ""
+        }
+        defaults {
+            publishConfigs('archives')
+            publishPom = true //Publish generated POM files to Artifactory (true by default)
+            publishIvy = false //Publish generated Ivy descriptor files to Artifactory (true by default)
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'oss-release-local'
+        }
+    }
+}
+
+configure(install.repositories.mavenInstaller) {
+    pom.project {
+        licenses {
+            license {
+                name 'The Apache Software License, Version 2.0'
+                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                distribution 'repo'
+            }
+        }
+    }
+}
+
+uploadArchives {
+    configuration = configurations.archives
+    repositories.mavenDeployer {
+        pom {
+            setGroupId project.mavenGroupId
+            setArtifactId project.mavenArtifactId
+            setVersion project.mavenVersion
+        }
+        repository (url: project.mavenRepoUrl) {
+            authentication(
+                    // put these values in local file ~/.gradle/properties.gradle
+                    userName: project.hasProperty("bintrayUsername") ? project.bintrayUsername : "",
+                    password: project.hasProperty("bintrayApikey") ? project.bintrayApikey : ""
+            )
+        }
+    }
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += configurations.compile
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+artifactoryPublish {
+    dependsOn sourcesJar
+}
