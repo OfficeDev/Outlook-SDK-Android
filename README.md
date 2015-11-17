@@ -14,7 +14,7 @@ Information about official Microsoft support is available [here][support-placeho
 
 These libraries are generated from API metadata using [Vipr] and [Vipr-T4TemplateWriter] and use a shared client stack provided by [orc-for-android].
 
-For information on release cadence and how to access built binaries before release, see [Releases](https://github.com/OfficeDev/Microsoft-Graph-SDK-Android/wiki/Releases).
+For information on release cadence and how to access built binaries before release, see [Releases](https://github.com/OfficeDev/Outlook-SDK-Android/wiki/Releases).
 
 [Vipr]: https://github.com/microsoft/vipr
 [Vipr-T4TemplateWriter]: https://github.com/msopentech/vipr-t4templatewriter
@@ -22,7 +22,7 @@ For information on release cadence and how to access built binaries before relea
 
 ## Quick Start
 
-To use these libraries in your project, follow these general steps, as described further below:
+To use this library in your project, follow these general steps, as described further below:
 
 1. Configure dependencies in build.gradle.
 2. Set up authentication.
@@ -40,7 +40,9 @@ To use these libraries in your project, follow these general steps, as described
 4. In the `dependencies` closure, add the following dependencies to the `compile` configuration:
 
     ```groovy
-    compile 'com.microsoft.services:outlook-services:2.0.0'
+    compile('com.microsoft.services:outlook-services:2.0.0'){
+        transitive = true
+    }
     ```
 
     You may want to click the "Sync Project with Gradle Files" button in the toolbar. This will download the dependencies so Android Studio can assist in coding with them.
@@ -63,14 +65,13 @@ With your project prepared, the next step is to initialize the dependency manage
 2. Fill in the file with values from your app registration, as in the following example. **Be sure to paste in your app registration values for the Client ID and Redirect URL.**
 
     ```xml
-    <string name="AADAuthority">https://login.microsoftonline.com/common</string>
-    <string name="AADResourceId">https://graph.microsoft.com</string>
+    <string name="AADAuthority">https://login.windows.net/common</string>
+    <string name="AADResourceId">https://outlook.office365.com</string>
     <string name="AADClientId">Paste your Client ID HERE</string>
     <string name="AADRedirectUrl">Paste your Redirect URI HERE</string>
     ```
 
-3. Add an id to the "Hello World" TextView. Open app/src/main/res/layout/activity_main.xml.
-4. Add the following id tag to the TextView element for "Hello World".
+3. Add an id to the "Hello World" TextView. Open app/src/main/res/layout/activity_main.xml. Use the following tag.
 
     ```xml
 	android:id="@+id/messages"
@@ -88,8 +89,8 @@ With your project prepared, the next step is to initialize the dependency manage
     import com.microsoft.aad.adal.AuthenticationContext;
     import com.microsoft.aad.adal.AuthenticationResult;
     import com.microsoft.aad.adal.PromptBehavior;
-    import com.microsoft.services.graph.*;
-    import com.microsoft.services.graph.fetchers.GraphServiceClient;    
+    import com.microsoft.services.outlook.*;
+    import com.microsoft.services.outlook.fetchers.OutlookClient;    
     import static com.microsoft.aad.adal.AuthenticationResult.AuthenticationStatus;
 
     ```
@@ -174,18 +175,18 @@ With your project prepared, the next step is to initialize the dependency manage
         });
     ```
 
-4. Now fill in the onSuccess method of the FutureCallback to create an API client.
+4. Now, add the necessary code to create an API client.
 
     Add a private static variable with the Outlook base URL:
 
     ```java
-    private static final String graphBaseUrl = "https://graph.microsoft.com/api/v1.0";
+    private static final String outlookBaseUrl = "https://outlook.office.com/api/v2.0";
     ```
 
     Add a private instance variable for the client:
 
     ```java
-    private GraphServiceClient mClient;
+    private OutlookClient mClient;
     ```
 
     And finally complete the onSuccess method by constructing a client and using it. We'll define the getMessages() method in the next step.
@@ -193,7 +194,7 @@ With your project prepared, the next step is to initialize the dependency manage
     ```java
     @Override
     public void onSuccess(Boolean result) {
-        mClient = new GraphServiceClient(graphBaseUrl, mResolver);
+        mClient = new OutlookClient(outlookBaseUrl, mResolver);
         //call methods with the client.
     }
     ```
@@ -205,10 +206,9 @@ With your project prepared, the next step is to initialize the dependency manage
     protected void getMessages() {
         Futures.addCallback(
                 mClient.getMe()
-                        .getMailFolders()
-                        .getById("Inbox")
-                        .getMessages()
-                        .read(),
+                .getMessages()
+                .top(20)
+                .read(),
                 new FutureCallback<List<Message>>() {
                     @Override
                     public void onSuccess(final List<Message> result) {
@@ -228,7 +228,7 @@ With your project prepared, the next step is to initialize the dependency manage
     }
 	```
 
-If successful, the number of messages in your inbox will be displayed in the TextView. :)
+If successful, the number of retrieved messages from your inbox will be displayed in the TextView. :)
 
 ## FAQ
 
