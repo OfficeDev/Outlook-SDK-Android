@@ -1,4 +1,4 @@
-package com.microsoft.samples.o365quickstart;
+package com.microsoft.samples.outlookquickstart;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import com.microsoft.aad.adal.AuthenticationCallback;
 import com.microsoft.aad.adal.AuthenticationContext;
 import com.microsoft.aad.adal.AuthenticationResult;
 import com.microsoft.aad.adal.PromptBehavior;
+import com.microsoft.samples.o365quickstart.R;
 import com.microsoft.services.orc.auth.AuthenticationCredentials;
 import com.microsoft.services.orc.core.DependencyResolver;
 import com.microsoft.services.orc.http.Credentials;
