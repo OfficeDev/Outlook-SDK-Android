@@ -38,6 +38,7 @@ To use this library in your project, follow these general steps, as described fu
 3. Open the Project view in the left-hand column if it's not open. From the list of Gradle Scripts, find the one title "build.gradle (Module: app)" and double-click to open it.
 
 4. In the `dependencies` closure, add the following dependencies to the `compile` configuration:
+   
    if using the current registration portal (Azure) :
 
     ```groovy
