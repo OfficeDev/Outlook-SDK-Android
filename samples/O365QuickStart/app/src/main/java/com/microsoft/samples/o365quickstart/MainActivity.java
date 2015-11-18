@@ -47,6 +47,7 @@ public class MainActivity extends ActionBarActivity {
     private OutlookClient _client;
 
     private ListView lvMessages;
+    private String[] scopes = new String[]{"http://outlook.office.com/Mail.Read"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +85,8 @@ public class MainActivity extends ActionBarActivity {
         if (_authContext != null) {
             _authContext.acquireToken(
                     this,
-                    getResources().getString(R.string.AADResourceId),
+                    scopes,
+                    null,
                     getResources().getString(R.string.AADClientId),
                     getResources().getString(R.string.AADRedirectUrl),
                     PromptBehavior.Auto,
