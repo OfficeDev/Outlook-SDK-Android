@@ -39,13 +39,23 @@ To use this library in your project, follow these general steps, as described fu
 
 4. In the `dependencies` closure, add the following dependencies to the `compile` configuration:
 
+if using the current registration portal (Azure) :
+
     ```groovy
     compile('com.microsoft.services:outlook-services:2.0.0'){
         transitive = true
     }
     ```
 
-    You may want to click the "Sync Project with Gradle Files" button in the toolbar. This will download the dependencies so Android Studio can assist in coding with them.
+or if using the new Application Registation Portal : 
+
+    ```groovy
+    compile('com.microsoft.services:outlook-services:2.1.0'){
+        transitive = true
+    }
+    ```
+
+You may want to click the "Sync Project with Gradle Files" button in the toolbar. This will download the dependencies so Android Studio can assist in coding with them.
 
 5. Find AndroidManifest.xml and add the following line within the manifest section:
 
@@ -58,15 +68,18 @@ With your project prepared, the next step is to initialize the dependency manage
 
 :exclamation: If you haven't yet registered your app in Azure AD, you'll need to do so before completing this step by following [these instructions][MSDN Add Common Consent].
 
+:exclamation: If you haven't yet registered the Application Registation Portal, you'll need to do so before completing this step by following [these instructions][App Registration].
+
 [MSDN Add Common Consent]: https://msdn.microsoft.com/en-us/office/office365/howto/add-common-consent-manually
+[App Registration]:https://dev.outlook.com/RestGettingStarted
 
 1. From the Project view in Android Studio, find app/src/main/res/values, right-click it, and choose *New* > *Values resource file*. Name your file adal_settings.
 
 2. Fill in the file with values from your app registration, as in the following example. **Be sure to paste in your app registration values for the Client ID and Redirect URL.**
 
     ```xml
-    <string name="AADAuthority">https://login.windows.net/common</string>
-    <string name="AADResourceId">https://outlook.office365.com</string>
+    <string name="AADAuthority">https://login.microsoftonline.com/common</string>
+    <string name="AADResourceId">https://outlook.office.com</string>
     <string name="AADClientId">Paste your Client ID HERE</string>
     <string name="AADRedirectUrl">Paste your Redirect URI HERE</string>
     ```
@@ -101,6 +114,7 @@ With your project prepared, the next step is to initialize the dependency manage
     private AuthenticationContext mAuthContext;
     private DependencyResolver mResolver;
     private TextView messagesTextView;
+    private String[] scopes = new String[]{"http://outlook.office.com/Mail.Read"};
     ```
 
     Add the following method to the MainActivity class. The logon() method constructs and initializes ADAL's AuthenticationContext, carries out interactive logon, and constructs the DependencyResolver using the ready-to-use AuthenticationContext.
@@ -113,7 +127,8 @@ With your project prepared, the next step is to initialize the dependency manage
             mAuthContext = new AuthenticationContext(this, getString(R.string.AADAuthority), true);
             mAuthContext.acquireToken(
                     this,
-                    getString(R.string.AADResourceId),
+                    scopes,
+                    null,
                     getString(R.string.AADClientId),
                     getString(R.string.AADRedirectUrl),
                     PromptBehavior.Auto,
