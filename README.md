@@ -66,7 +66,7 @@ With your project prepared, the next step is to initialize the dependency manage
 
     ```xml
     <string name="AADAuthority">https://login.windows.net/common</string>
-    <string name="AADResourceId">https://outlook.office365.com</string>
+    <string name="AADResourceId">https://outlook.office.com</string>
     <string name="AADClientId">Paste your Client ID HERE</string>
     <string name="AADRedirectUrl">Paste your Redirect URI HERE</string>
     ```
