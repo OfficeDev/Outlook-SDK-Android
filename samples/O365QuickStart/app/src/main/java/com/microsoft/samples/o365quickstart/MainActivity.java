@@ -47,7 +47,7 @@ public class MainActivity extends ActionBarActivity {
     private OutlookClient _client;
 
     private ListView lvMessages;
-    private String[] scopes = new String[]{"http://outlook.office.com/Mail.Read"};
+    private String[] scopes = new String[]{"https://outlook.office.com/Mail.Read"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
