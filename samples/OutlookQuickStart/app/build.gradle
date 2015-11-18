@@ -21,7 +21,7 @@ android {
 
 dependencies {
     compile 'com.android.support:appcompat-v7:22.1.1'
-    compile('com.microsoft.services:outlook-services:2.1.0-SNAPSHOT'){
+    compile('com.microsoft.services:outlook-services:2.1.0'){
         transitive = true
     }
 }
