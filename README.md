@@ -38,8 +38,7 @@ To use this library in your project, follow these general steps, as described fu
 3. Open the Project view in the left-hand column if it's not open. From the list of Gradle Scripts, find the one title "build.gradle (Module: app)" and double-click to open it.
 
 4. In the `dependencies` closure, add the following dependencies to the `compile` configuration:
-
-if using the current registration portal (Azure) :
+   if using the current registration portal (Azure) :
 
     ```groovy
     compile('com.microsoft.services:outlook-services:2.0.0'){
@@ -47,14 +46,13 @@ if using the current registration portal (Azure) :
     }
     ```
 
-or if using the new Application Registation Portal : 
+   or if using the new Application Registation Portal : 
 
     ```groovy
     compile('com.microsoft.services:outlook-services:2.1.0'){
         transitive = true
     }
     ```
-
 You may want to click the "Sync Project with Gradle Files" button in the toolbar. This will download the dependencies so Android Studio can assist in coding with them.
 
 5. Find AndroidManifest.xml and add the following line within the manifest section:
