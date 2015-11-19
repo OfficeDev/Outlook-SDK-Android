@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="prefExchangeResourceUrl">https://outlook.office.com/</string>
+    <string name="prefExchangeEndpoint">https://outlook.office.com/api/v2.0</string>
+    <string name="prefTestMail">testmail@microsoft.com</string>
+    <string name="prefAADClientId">00000000-0000-0000-0000-000000000000</string>
+    <string name="prefAADRedirectUrl">https://redirecturi.com</string>
+</resources>
