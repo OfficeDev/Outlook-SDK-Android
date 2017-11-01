@@ -1,4 +1,6 @@
-#Outlook API SDK for Android
+# Outlook API SDK for Android
+
+**Important:** This preview SDK has been deprecated and is no longer being maintained. We recommend that you use [Microsoft Graph](https://graph.microsoft.com/) and the associated [Microsoft Graph SDKs](https://developer.microsoft.com/en-us/graph/code-samples-and-sdks) instead.
 
 Build apps for Outlook, Outlook.com, and Office 365 users with one set of APIs.
 
