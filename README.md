@@ -1,3 +1,16 @@
+---
+topic: sample
+products:
+- Office 365
+- Outlook
+languages:
+- Java
+extensions:
+  contentType: samples
+  platforms:
+  - Android
+  createdDate: 11/16/2015 1:47:50 PM
+---
 # Outlook API SDK for Android
 
 **Important:** This preview SDK has been deprecated and is no longer being maintained. We recommend that you use [Microsoft Graph](https://graph.microsoft.com/) and the associated [Microsoft Graph SDKs](https://developer.microsoft.com/en-us/graph/code-samples-and-sdks) instead.
