@@ -1,10 +1,10 @@
 ---
 topic: sample
 products:
-- Office 365
-- Outlook
+- office-365
+- office-outlook
 languages:
-- Java
+- java
 extensions:
   contentType: samples
   platforms:
