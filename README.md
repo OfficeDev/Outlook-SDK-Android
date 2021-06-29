@@ -156,7 +156,7 @@ With your project prepared, the next step is to initialize the dependency manage
                                                 new AuthenticationCredentials() {
                                                 @Override
                                                 public Credentials getCredentials() {
-                                                    return new OAuthCredentials(token);
+                                                    return new OAuthCredentials(authenticationResult.getAccessToken());
                                                 }
                                             }).build();
                                 result.set(true);
